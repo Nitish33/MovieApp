@@ -62,6 +62,7 @@ class MovieListing extends Component {
           title="Movie List"
           searchTitle="Search"
           onSearchClick={this.onSearchClick}
+          placeholder="Search movie by title"
         />
 
         <View style={R.CommonStyle.containerStyle}>

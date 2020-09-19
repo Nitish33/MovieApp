@@ -28,9 +28,10 @@ class SavedMovies extends Component {
 
         <Searchbar
           onSearchText={null}
-          title="Movie List"
+          title="Shortlist Movies"
           searchTitle="Search"
           onSearchClick={this.onSearchClick}
+          searchEnabled={false}
         />
 
         <VideoList

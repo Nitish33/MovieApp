@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     tintColor: 'white',
-    marginRight: 10,
     marginTop: 10,
   },
 
@@ -26,7 +25,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     fontSize: 18,
     paddingHorizontal: 10,
+    borderRadius: 5,
+    overflow: 'hidden',
     letterSpacing: 0.18,
+  },
+
+  titleStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+
+  cancelButtonStyle: {
+    color: 'white',
+    marginRight: 10,
+    paddingVertical: 10,
   },
 });
 
