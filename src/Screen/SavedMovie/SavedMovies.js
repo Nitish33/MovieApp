@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
+import {connect} from 'react-redux';
 
-export default class SavedMovies extends Component {
+class SavedMovies extends Component {
   render() {
     return (
       <View>
@@ -10,3 +11,13 @@ export default class SavedMovies extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SavedMovies);

@@ -2,14 +2,30 @@ import {combineReducers} from 'redux';
 
 import MovieListingReducer from '../src/Screen/MovieListing/Reducer';
 import SavedMovieReducer from '../src/Screen/SavedMovie/Reducer';
+import R from '../src/Utility/R';
 
-const AppReducer = combineReducers({
-  MovieListingReducer,
-  SavedMovieReducer,
-});
+const CommonReducer = (_, action) => {
+  const {
+    Constants: {
+      Actions: {
+        Common: {StartLoading, EndLoading},
+      },
+    },
+  } = R;
 
-const RootReducer = (state, action) => {
-  return AppReducer(state, action);
+  switch (action.type) {
+    case StartLoading:
+      return {loading: true};
+    case EndLoading:
+    default:
+      return {loading: false};
+  }
 };
 
-export default RootReducer;
+const AppReducer = combineReducers({
+  Common: CommonReducer,
+  MovieListing: MovieListingReducer,
+  SavedMovie: SavedMovieReducer,
+});
+
+export default AppReducer;
