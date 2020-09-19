@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     backgroundColor: 'white',
     fontSize: 18,
+    paddingHorizontal: 10,
+    letterSpacing: 0.18,
   },
 });
 

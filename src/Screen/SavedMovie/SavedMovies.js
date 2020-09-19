@@ -3,10 +3,24 @@ import {Text, View, SafeAreaView} from 'react-native';
 import {connect} from 'react-redux';
 import R from '../../Utility/R';
 import {VideoList, Searchbar} from '../../Component';
+import {shortlistVideo, unshortlistVideo} from './Action';
 
 class SavedMovies extends Component {
+  onVideoStatusChange = (video) => {
+    const {
+      shortlistVideo: shortlist,
+      unshortlistVideo: unsortlist,
+    } = this.props;
+
+    if (video.isShortListed) {
+      shortlist(video);
+    } else {
+      unsortlist(video.imdbId);
+    }
+  };
+
   render() {
-    const {shortlistVideo} = this.props;
+    const {shortlistedVideo} = this.props;
 
     return (
       <View style={R.CommonStyle.containerStyle}>
@@ -20,8 +34,10 @@ class SavedMovies extends Component {
         />
 
         <VideoList
-          movies={shortlistVideo}
+          movies={shortlistedVideo}
+          onVideoStatusChange={this.onVideoStatusChange}
           emptyStateMessage={'No shortlist video right now'}
+          extraData={['Nitish']}
         />
       </View>
     );
@@ -30,13 +46,16 @@ class SavedMovies extends Component {
 
 const mapStateToProps = (state) => {
   const savedVideo = state.SavedMovie;
-  const {shortlistVideo} = savedVideo;
+  const {shortlistVideo: shortlistedVideo} = savedVideo;
 
-  return {shortlistVideo};
+  return {shortlistedVideo};
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    shortlistVideo: (video) => dispatch(shortlistVideo(video)),
+    unshortlistVideo: (video) => dispatch(unshortlistVideo(video)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SavedMovies);

@@ -33,9 +33,16 @@ export default class Searchbar extends Component {
       <SafeAreaView style={Styles.containerStyle}>
         <View style={Styles.containerStyle}>
           <TextInput
+            placeholder="Search movie by title"
             value={searchText}
             style={Styles.searchFieldStyle}
             onChangeText={this.onSearchTextChange}
+            returnKeyType="search"
+            onSubmitEditing={() => {
+              if (onSearchClick) {
+                onSearchClick(searchText);
+              }
+            }}
           />
 
           <TouchableOpacity

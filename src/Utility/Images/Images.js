@@ -5,3 +5,5 @@ export const BottomBar = {
 };
 
 export const EmptyState = require('../../../assets/Images/emptyState.png');
+export const HeartEmpty = require('../../../assets/Images/heartEmpty.png');
+export const HeartFilled = require('../../../assets/Images/heart.png');

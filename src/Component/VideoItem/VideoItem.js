@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Styles from './styles';
+import R from '../../Utility/R';
 
 export default function VideoItem({item, onClick}) {
   const {poster, title, year, isShortListed} = item;
@@ -37,7 +38,12 @@ export default function VideoItem({item, onClick}) {
         <TouchableOpacity
           style={Styles.saveButtonStyle}
           onPress={updateShortlistStatus}>
-          <Text>{shortListedMovie ? 'Saved' : 'Save'}</Text>
+          <FastImage
+            source={
+              shortListedMovie ? R.Images.HeartFilled : R.Images.HeartEmpty
+            }
+            style={{width: 24, height: 24}}
+          />
         </TouchableOpacity>
       </View>
     </View>

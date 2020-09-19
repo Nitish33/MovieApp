@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, SafeAreaView, Button, TextInput} from 'react-native';
+import {View, SafeAreaView, Button, Text} from 'react-native';
 import {connect} from 'react-redux';
 import {
   searchMovies,
@@ -51,7 +51,7 @@ class MovieListing extends Component {
   };
 
   render() {
-    const {error, loading, movies, totalResults} = this.props;
+    const {error, loading, movies, shortlistedVideo} = this.props;
 
     return (
       <View style={R.CommonStyle.containerStyle}>
@@ -65,11 +65,21 @@ class MovieListing extends Component {
         />
 
         <View style={R.CommonStyle.containerStyle}>
+          {loading && movies.length < 1 && (
+            <View
+              style={
+                (R.CommonStyle.containerStyle, R.CommonStyle.centerContent)
+              }>
+              <Text>Loading</Text>
+            </View>
+          )}
+
           <VideoList
             movies={movies}
             onVideoStatusChange={this.onVideoStatusChange}
             onLoadMore={this.onLoadMore}
             emptyStateMessage={'Search video to see results.'}
+            extraData={shortlistedVideo}
           />
         </View>
       </View>
@@ -80,11 +90,15 @@ class MovieListing extends Component {
 const mapStateToProps = (state) => {
   const movieData = state.MovieListing;
   const common = state.Common;
+  const savedVideo = state.SavedMovie;
 
+  const {shortlistVideo: shortlistedVideo} = savedVideo;
   const {movies, totalResults, error, page} = movieData;
   const {loading} = common;
 
-  return {movies, totalResults, error, loading, page};
+  console.log('shorted movies movies list state to props', shortlistedVideo);
+
+  return {movies, totalResults, error, loading, page, shortlistedVideo};
 };
 
 const mapDispatchToProps = (dispatch) => {

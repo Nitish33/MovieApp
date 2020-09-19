@@ -9,6 +9,7 @@ export default function VideoList({
   onVideoStatusChange,
   onLoadMore,
   emptyStateMessage,
+  extraData,
 }) {
   const renderItem = function ({item}) {
     return <VideoItem item={item} onClick={onVideoStatusChange} />;
@@ -21,7 +22,7 @@ export default function VideoList({
       data={movies}
       renderItem={renderItem}
       keyExtractor={(item, index) => {
-        return item.imdbId;
+        return `${item.imdbId} + ${item.isShortListed}`;
       }}
       ListEmptyComponent={
         <View
@@ -37,6 +38,7 @@ export default function VideoList({
         </View>
       }
       onEndReached={onLoadMore}
+      extraData={extraData}
     />
   );
 }
