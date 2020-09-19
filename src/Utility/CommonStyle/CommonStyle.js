@@ -3,6 +3,7 @@ const {StyleSheet} = require('react-native');
 const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
+    backgroundColor: 'white',
   },
 
   centerContent: {

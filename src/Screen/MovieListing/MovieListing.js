@@ -55,7 +55,8 @@ class MovieListing extends Component {
 
     return (
       <View style={R.CommonStyle.containerStyle}>
-        <SafeAreaView style={[{backgroundColor: 'blue'}]} />
+        <SafeAreaView style={[{backgroundColor: '#0462EA'}]} />
+
         <Searchbar
           onSearchText={null}
           title="Movie List"
@@ -68,6 +69,7 @@ class MovieListing extends Component {
             movies={movies}
             onVideoStatusChange={this.onVideoStatusChange}
             onLoadMore={this.onLoadMore}
+            emptyStateMessage={'Search video to see results.'}
           />
         </View>
       </View>

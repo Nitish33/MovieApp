@@ -2,18 +2,28 @@ import React, {Component} from 'react';
 import {Text, View, SafeAreaView} from 'react-native';
 import {connect} from 'react-redux';
 import R from '../../Utility/R';
-import {VideoList} from '../../Component';
+import {VideoList, Searchbar} from '../../Component';
 
 class SavedMovies extends Component {
   render() {
     const {shortlistVideo} = this.props;
 
     return (
-      <SafeAreaView style={R.CommonStyle.containerStyle}>
-        <View style={R.CommonStyle.containerStyle}>
-          <VideoList movies={shortlistVideo} />
-        </View>
-      </SafeAreaView>
+      <View style={R.CommonStyle.containerStyle}>
+        <SafeAreaView style={[{backgroundColor: '#0462EA'}]} />
+
+        <Searchbar
+          onSearchText={null}
+          title="Movie List"
+          searchTitle="Search"
+          onSearchClick={this.onSearchClick}
+        />
+
+        <VideoList
+          movies={shortlistVideo}
+          emptyStateMessage={'No shortlist video right now'}
+        />
+      </View>
     );
   }
 }
