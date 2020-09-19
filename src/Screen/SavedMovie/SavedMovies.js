@@ -1,19 +1,28 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, SafeAreaView} from 'react-native';
 import {connect} from 'react-redux';
+import R from '../../Utility/R';
+import {VideoList} from '../../Component';
 
 class SavedMovies extends Component {
   render() {
+    const {shortlistVideo} = this.props;
+
     return (
-      <View>
-        <Text> textInComponent </Text>
-      </View>
+      <SafeAreaView style={R.CommonStyle.containerStyle}>
+        <View style={R.CommonStyle.containerStyle}>
+          <VideoList movies={shortlistVideo} />
+        </View>
+      </SafeAreaView>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  const savedVideo = state.SavedMovie;
+  const {shortlistVideo} = savedVideo;
+
+  return {shortlistVideo};
 };
 
 const mapDispatchToProps = (dispatch) => {

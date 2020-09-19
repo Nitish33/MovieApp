@@ -9,7 +9,7 @@ export default function Reducer(
   const {
     Constants: {
       Actions: {
-        MovieListing: {Error, MovieLoaded},
+        MovieListing: {Error, MovieLoaded, ClearMovieList},
       },
     },
   } = R;
@@ -20,6 +20,14 @@ export default function Reducer(
         ...state,
         movies: state.movies.concat(parseMovie(payload.Search)),
         totalResults: payload.totalResults,
+        page: payload.page,
+      };
+
+    case ClearMovieList:
+      return {
+        ...state,
+        totalResults: 0,
+        movies: [],
       };
 
     case Error:

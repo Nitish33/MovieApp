@@ -1,45 +1,67 @@
 import R from '../../Utility/R';
 
-export const startLoading = (text, page = 1) => (dispatch, getState) => {
+export const searchMovies = (text) => (dispatch) => {
   const {
-    Constants: {
-      Actions: {
-        Common: {StartLoading, EndLoading},
-        MovieListing: {Error},
-      },
-    },
-  } = R;
+    MovieListing: {ClearMovieList},
+    Common: {EndLoading, StartLoading},
+  } = R.Constants.Actions;
 
+  dispatch({type: ClearMovieList});
   dispatch({type: StartLoading});
 
-  fetch(
-    `http://www.omdbapi.com/?s=${text}&apikey=4b1d318f&page=${page}&type=movie`,
-  )
-    .then((response) => response.json())
-    .then((movies) => {
-      const {Search, totalResults} = movies;
-
-      console.log('movie data is', Search);
-
-      dispatch(onDataLoad(Search, totalResults));
+  fetchMovie(text, 1)
+    .then(({Search, totalResults}) => {
+      dispatch(onDataLoad(Search, totalResults, 1));
     })
     .catch((error) => {
-      console.log('error is', error);
-
       dispatch({
         type: Error,
         payload: {
           error: error.message,
         },
       });
-    });
-
-  setTimeout(() => {
-    dispatch({type: EndLoading});
-  }, 1000);
+    })
+    .finally(dispatch({type: EndLoading}));
 };
 
-export const onDataLoad = (Search, totalResults) => {
+export const loadMore = (text, page) => (dispatch) => {
+  const {
+    Common: {EndLoading, StartLoading},
+  } = R.Constants.Actions;
+
+  dispatch({type: StartLoading});
+
+  fetchMovie(text, page)
+    .then(({Search, totalResults}) => {
+      dispatch(onDataLoad(Search, totalResults, page));
+    })
+    .catch((error) => {
+      dispatch({
+        type: Error,
+        payload: {
+          error: error.message,
+        },
+      });
+    })
+    .finally(dispatch({type: EndLoading}));
+};
+
+const fetchMovie = async (text, page) => {
+  try {
+    const apiResponse = await fetch(
+      `http://www.omdbapi.com/?s=${text}&apikey=4b1d318f&page=${page}&type=movie`,
+    );
+
+    const moviesResponse = await apiResponse.json();
+    const {Search, totalResults} = moviesResponse;
+
+    return {Search, totalResults};
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const onDataLoad = (Search, totalResults, page) => {
   const {
     Constants: {
       Actions: {
@@ -53,6 +75,41 @@ export const onDataLoad = (Search, totalResults) => {
     payload: {
       Search,
       totalResults,
+      page,
+    },
+  };
+};
+
+export const shortlistVideo = (video) => {
+  const {
+    Constants: {
+      Actions: {
+        Common: {ShortlistVideo},
+      },
+    },
+  } = R;
+
+  return {
+    type: ShortlistVideo,
+    payload: {
+      video,
+    },
+  };
+};
+
+export const unshortlistVideo = (id) => {
+  const {
+    Constants: {
+      Actions: {
+        Common: {UnShortlistVideo},
+      },
+    },
+  } = R;
+
+  return {
+    type: UnShortlistVideo,
+    payload: {
+      id,
     },
   };
 };
