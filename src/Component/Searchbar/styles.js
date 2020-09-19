@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   searchFieldStyle: {
     flex: 1,
     height: 40,
-    marginTop: 10,
+    marginTop: 4,
     marginHorizontal: 20,
     backgroundColor: 'white',
     fontSize: 18,

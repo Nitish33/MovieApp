@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Styles from './styles';
 import R from '../../Utility/R';
@@ -23,10 +23,10 @@ export default function VideoItem({item, onClick}) {
 
   return (
     <View style={Styles.containerStyle}>
-      <FastImage
+      <Image
         style={Styles.imageStyle}
         source={{uri: poster}}
-        resizeMode={FastImage.resizeMode.cover}
+        resizeMode="cover"
       />
 
       <View style={Styles.infoContainerStyle}>
