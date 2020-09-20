@@ -17,6 +17,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexShrink: 1,
   },
+
+  appBackgroundColor: {
+    backgroundColor: '#0462EA',
+  },
 });
 
 export default styles;

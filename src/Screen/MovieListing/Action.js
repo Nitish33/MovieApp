@@ -8,6 +8,12 @@ export const searchMovies = (text) => (dispatch) => {
 
   dispatch({type: ClearMovieList});
   dispatch({type: StartLoading});
+  dispatch({
+    type: Error,
+    payload: {
+      error: null,
+    },
+  });
 
   fetchMovie(text, 1, dispatch)
     .then(({Search, totalResults}) => {
@@ -57,9 +63,14 @@ const fetchMovie = async (text, page) => {
     )
       .then((apiResponse) => apiResponse.json())
       .then((moviesResponse) => {
-        const {Search, totalResults} = moviesResponse;
+        const {Response, Error: error, Search, totalResults} = moviesResponse;
 
-        if (totalResults === 0) {
+        if (Response === 'False') {
+          reject(new Error(error));
+          return;
+        }
+
+        if (totalResults !== '0') {
           resolve({Search, totalResults});
         } else {
           reject(new Error(`No result found for ${text}`));

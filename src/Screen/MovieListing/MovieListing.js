@@ -62,11 +62,11 @@ class MovieListing extends Component {
 
     const loadingCondition = loading && movies.length < 1;
     const errorCondition = !loading && error && movies.length < 1;
-    const moviesListCondition = !loading && !error;
+    const moviesListCondition = !loadingCondition && !errorCondition;
 
     return (
       <View style={R.CommonStyle.containerStyle}>
-        <SafeAreaView style={[{backgroundColor: '#0462EA'}]} />
+        <SafeAreaView style={R.CommonStyle.appBackgroundColor} />
 
         <Searchbar
           onSearchText={null}
