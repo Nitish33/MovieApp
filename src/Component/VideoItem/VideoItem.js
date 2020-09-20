@@ -38,11 +38,11 @@ export default function VideoItem({item, onClick}) {
         <TouchableOpacity
           style={Styles.saveButtonStyle}
           onPress={updateShortlistStatus}>
-          <FastImage
+          <Image
             source={
               shortListedMovie ? R.Images.HeartFilled : R.Images.HeartEmpty
             }
-            style={{width: 24, height: 24}}
+            style={Styles.heartIconStyle}
           />
         </TouchableOpacity>
       </View>

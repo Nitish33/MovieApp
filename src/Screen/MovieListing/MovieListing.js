@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, SafeAreaView, Button, Text} from 'react-native';
+import {View, SafeAreaView, Text, Alert, ActivityIndicator} from 'react-native';
 import {connect} from 'react-redux';
 import {
   searchMovies,
@@ -46,6 +46,11 @@ class MovieListing extends Component {
   onSearchClick = (searchText) => {
     const {searchMovie} = this.props;
 
+    if (searchText.trim().length < 3) {
+      Alert.alert('Error', 'Please enter atleast 3 character to search');
+      return;
+    }
+
     this.setState({searchText});
 
     searchMovie(searchText);
@@ -58,7 +63,7 @@ class MovieListing extends Component {
   };
 
   render() {
-    const {error, loading, movies, shortlistedVideo} = this.props;
+    const {error, loading, movies, shortlistedVideo, totalResults} = this.props;
 
     const loadingCondition = loading && movies.length < 1;
     const errorCondition = !loading && error && movies.length < 1;
@@ -110,6 +115,17 @@ class MovieListing extends Component {
               onLoadMore={this.onLoadMore}
               emptyStateMessage={'Search video to see results.'}
               extraData={shortlistedVideo}
+              ListFooterComponent={() => {
+                if (
+                  loading &&
+                  movies.length > 0 &&
+                  movies.length < totalResults
+                ) {
+                  return <ActivityIndicator size="large" />;
+                } else {
+                  return null;
+                }
+              }}
             />
           )}
         </View>

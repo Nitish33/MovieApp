@@ -5,6 +5,8 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 5,
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#efefef',
     overflow: 'hidden',
   },
 
@@ -30,6 +32,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
+  },
+
+  heartIconStyle: {
+    width: 24,
+    height: 24,
   },
 });
 

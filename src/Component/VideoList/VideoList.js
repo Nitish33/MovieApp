@@ -10,6 +10,7 @@ export default function VideoList({
   onLoadMore,
   emptyStateMessage,
   extraData,
+  ListFooterComponent,
 }) {
   const renderItem = function ({item}) {
     return <VideoItem item={item} onClick={onVideoStatusChange} />;
@@ -37,6 +38,7 @@ export default function VideoList({
           <Text>{emptyStateMessage}</Text>
         </View>
       }
+      ListFooterComponent={ListFooterComponent}
       onEndReached={onLoadMore}
       extraData={extraData}
     />
