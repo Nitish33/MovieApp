@@ -2,14 +2,14 @@ import R from '../../Utility/R';
 
 export const searchMovies = (text) => (dispatch) => {
   const {
-    MovieListing: {ClearMovieList},
+    MovieListing: {ClearMovieList, Error},
     Common: {EndLoading, StartLoading},
   } = R.Constants.Actions;
 
   dispatch({type: ClearMovieList});
   dispatch({type: StartLoading});
 
-  fetchMovie(text, 1)
+  fetchMovie(text, 1, dispatch)
     .then(({Search, totalResults}) => {
       dispatch(onDataLoad(Search, totalResults, 1));
     })
@@ -21,7 +21,9 @@ export const searchMovies = (text) => (dispatch) => {
         },
       });
     })
-    .finally(dispatch({type: EndLoading}));
+    .finally(() => {
+      dispatch({type: EndLoading});
+    });
 };
 
 export const loadMore = (text, page) => (dispatch) => {
@@ -31,7 +33,7 @@ export const loadMore = (text, page) => (dispatch) => {
 
   dispatch({type: StartLoading});
 
-  fetchMovie(text, page)
+  fetchMovie(text, page, dispatch)
     .then(({Search, totalResults}) => {
       dispatch(onDataLoad(Search, totalResults, page));
     })
@@ -43,22 +45,30 @@ export const loadMore = (text, page) => (dispatch) => {
         },
       });
     })
-    .finally(dispatch({type: EndLoading}));
+    .finally(() => {
+      dispatch({type: EndLoading});
+    });
 };
 
 const fetchMovie = async (text, page) => {
-  try {
-    const apiResponse = await fetch(
+  return new Promise((resolve, reject) => {
+    fetch(
       `http://www.omdbapi.com/?s=${text}&apikey=4b1d318f&page=${page}&type=movie`,
-    );
+    )
+      .then((apiResponse) => apiResponse.json())
+      .then((moviesResponse) => {
+        const {Search, totalResults} = moviesResponse;
 
-    const moviesResponse = await apiResponse.json();
-    const {Search, totalResults} = moviesResponse;
-
-    return {Search, totalResults};
-  } catch (error) {
-    throw error;
-  }
+        if (totalResults === 0) {
+          resolve({Search, totalResults});
+        } else {
+          reject(new Error(`No result found for ${text}`));
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 };
 
 export const onDataLoad = (Search, totalResults, page) => {

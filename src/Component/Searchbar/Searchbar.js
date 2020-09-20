@@ -8,6 +8,7 @@ import {
   Animated,
   TouchableOpacity,
   Dimensions,
+  Keyboard,
 } from 'react-native';
 import Styles from './styles';
 import R from '../../Utility/R';
@@ -60,6 +61,9 @@ export default class Searchbar extends Component {
 
   expandAnimation = () => {
     const {searchEnabled = true} = this.props;
+    if (this.textRef) {
+      this.textRef.focus();
+    }
 
     if (!searchEnabled) {
       return;
@@ -71,6 +75,7 @@ export default class Searchbar extends Component {
   collapseAnimation = () => {
     this.setState({searchText: ''});
     this.runAnimation(0);
+    Keyboard.dismiss();
   };
 
   runAnimation = (toValue) => {
@@ -110,6 +115,9 @@ export default class Searchbar extends Component {
           </TouchableOpacity>
 
           <TextInput
+            ref={(ref) => {
+              this.textRef = ref;
+            }}
             placeholder={placeholder}
             value={searchText}
             style={Styles.searchFieldStyle}

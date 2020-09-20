@@ -10,6 +10,7 @@ import {
 import R from '../../Utility/R';
 import Styles from './styles';
 import {VideoList, Searchbar} from '../../Component';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 class MovieListing extends Component {
   constructor(props) {
@@ -50,8 +51,18 @@ class MovieListing extends Component {
     searchMovie(searchText);
   };
 
+  onRetryButtonClick = () => {
+    const {searchMovie} = this.props;
+    const {searchText} = this.state;
+    searchMovie(searchText);
+  };
+
   render() {
     const {error, loading, movies, shortlistedVideo} = this.props;
+
+    const loadingCondition = loading && movies.length < 1;
+    const errorCondition = !loading && error && movies.length < 1;
+    const moviesListCondition = !loading && !error;
 
     return (
       <View style={R.CommonStyle.containerStyle}>
@@ -66,22 +77,41 @@ class MovieListing extends Component {
         />
 
         <View style={R.CommonStyle.containerStyle}>
-          {loading && movies.length < 1 && (
+          {loadingCondition && (
             <View
-              style={
-                (R.CommonStyle.containerStyle, R.CommonStyle.centerContent)
-              }>
+              style={[
+                R.CommonStyle.containerStyle,
+                R.CommonStyle.centerContent,
+              ]}>
               <Text>Loading</Text>
             </View>
           )}
 
-          <VideoList
-            movies={movies}
-            onVideoStatusChange={this.onVideoStatusChange}
-            onLoadMore={this.onLoadMore}
-            emptyStateMessage={'Search video to see results.'}
-            extraData={shortlistedVideo}
-          />
+          {errorCondition && (
+            <View
+              style={[
+                R.CommonStyle.containerStyle,
+                R.CommonStyle.centerContent,
+              ]}>
+              <Text>{error}</Text>
+
+              <TouchableOpacity
+                style={Styles.retryContainerStyle}
+                onPress={this.onRetryButtonClick}>
+                <Text style={Styles.retryTextStyle}>Retry</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {moviesListCondition && (
+            <VideoList
+              movies={movies}
+              onVideoStatusChange={this.onVideoStatusChange}
+              onLoadMore={this.onLoadMore}
+              emptyStateMessage={'Search video to see results.'}
+              extraData={shortlistedVideo}
+            />
+          )}
         </View>
       </View>
     );
@@ -96,8 +126,6 @@ const mapStateToProps = (state) => {
   const {shortlistVideo: shortlistedVideo} = savedVideo;
   const {movies, totalResults, error, page} = movieData;
   const {loading} = common;
-
-  console.log('shorted movies movies list state to props', shortlistedVideo);
 
   return {movies, totalResults, error, loading, page, shortlistedVideo};
 };

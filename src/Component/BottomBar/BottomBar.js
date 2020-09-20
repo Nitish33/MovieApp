@@ -35,8 +35,6 @@ export default class BottomBar extends React.Component {
     const noOfTabs = routes.length;
     const singleTabWidth = width / noOfTabs;
 
-    console.log('no of tabs is', noOfTabs);
-
     const interpolation = barAnimation.interpolate({
       inputRange: [0, noOfTabs],
       outputRange: [0, width],
@@ -72,8 +70,6 @@ export default class BottomBar extends React.Component {
     } = navigationProps;
 
     const barTransitionStyle = this.getBarTransitionStyle();
-
-    console.log('navigator is', navigationProps);
 
     return (
       <View style={{backgroundColor: '#dfdfdf'}}>
@@ -119,9 +115,7 @@ export default class BottomBar extends React.Component {
             return (
               <TouchableOpacity
                 accessibilityRole="button"
-                //   accessibilityStates={isFocused ? ['selected'] : []}
-                accessibilityLabel={options.tabBarAccessibilityLabel}
-                testID={options.tabBarTestID}
+                key={label}
                 onPress={onPress}
                 onLongPress={onLongPress}
                 style={{

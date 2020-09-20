@@ -31,7 +31,7 @@ export default function Reducer(
       };
 
     case Error:
-      if (state.movies) {
+      if (state.movies.length > 0) {
         return state;
       }
 
