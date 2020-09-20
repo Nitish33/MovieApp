@@ -66,5 +66,4 @@ ios/Pods/
 #coverage report
 coverage
 
-android/app/release/app-release.apk
-android/app/release/output.json
+android/app/release/*
