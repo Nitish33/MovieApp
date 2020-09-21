@@ -1,6 +1,6 @@
 import R from '../../Utility/R';
 
-export const searchMovies = (text) => (dispatch) => {
+export const searchMovies = (text, savedVideo) => (dispatch) => {
   const {
     MovieListing: {ClearMovieList, Error},
     Common: {EndLoading, StartLoading},
@@ -17,7 +17,7 @@ export const searchMovies = (text) => (dispatch) => {
 
   fetchMovie(text, 1, dispatch)
     .then(({Search, totalResults}) => {
-      dispatch(onDataLoad(Search, totalResults, 1));
+      dispatch(onDataLoad(Search, totalResults, 1, savedVideo));
     })
     .catch((error) => {
       dispatch({
@@ -32,7 +32,7 @@ export const searchMovies = (text) => (dispatch) => {
     });
 };
 
-export const loadMore = (text, page) => (dispatch) => {
+export const loadMore = (text, page, savedVideo) => (dispatch) => {
   const {
     Common: {EndLoading, StartLoading},
   } = R.Constants.Actions;
@@ -41,7 +41,7 @@ export const loadMore = (text, page) => (dispatch) => {
 
   fetchMovie(text, page, dispatch)
     .then(({Search, totalResults}) => {
-      dispatch(onDataLoad(Search, totalResults, page));
+      dispatch(onDataLoad(Search, totalResults, page, savedVideo));
     })
     .catch((error) => {
       dispatch({
@@ -82,7 +82,7 @@ const fetchMovie = async (text, page) => {
   });
 };
 
-export const onDataLoad = (Search, totalResults, page) => {
+export const onDataLoad = (Search, totalResults, page, savedVideo) => {
   const {
     Constants: {
       Actions: {
@@ -97,6 +97,7 @@ export const onDataLoad = (Search, totalResults, page) => {
       Search,
       totalResults,
       page,
+      savedVideo,
     },
   };
 };

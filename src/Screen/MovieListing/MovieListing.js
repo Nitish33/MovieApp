@@ -35,16 +35,23 @@ class MovieListing extends Component {
   };
 
   onLoadMore = () => {
-    const {loadMore, page, loading, movies, totalResults} = this.props;
+    const {
+      loadMore,
+      page,
+      loading,
+      movies,
+      totalResults,
+      savedVideo,
+    } = this.props;
     const {searchText} = this.state;
 
     if (!loading && movies.length > 0 && totalResults > movies.length) {
-      loadMore(searchText, page + 1);
+      loadMore(searchText, page + 1, savedVideo);
     }
   };
 
   onSearchClick = (searchText) => {
-    const {searchMovie} = this.props;
+    const {searchMovie, savedVideo} = this.props;
 
     if (searchText.trim().length < 3) {
       Alert.alert('Error', 'Please enter atleast 3 character to search');
@@ -53,13 +60,15 @@ class MovieListing extends Component {
 
     this.setState({searchText});
 
-    searchMovie(searchText);
+    console.log('saved video', savedVideo);
+
+    searchMovie(searchText, savedVideo);
   };
 
   onRetryButtonClick = () => {
-    const {searchMovie} = this.props;
+    const {searchMovie, savedVideo} = this.props;
     const {searchText} = this.state;
-    searchMovie(searchText);
+    searchMovie(searchText, savedVideo);
   };
 
   render() {
@@ -121,7 +130,7 @@ class MovieListing extends Component {
                   movies.length > 0 &&
                   movies.length < totalResults
                 ) {
-                  return <ActivityIndicator size="large" />;
+                  return <ActivityIndicator size="small" color="black" />;
                 } else {
                   return null;
                 }
@@ -143,15 +152,27 @@ const mapStateToProps = (state) => {
   const {movies, totalResults, error, page} = movieData;
   const {loading} = common;
 
-  return {movies, totalResults, error, loading, page, shortlistedVideo};
+  return {
+    movies,
+    totalResults,
+    error,
+    loading,
+    page,
+    shortlistedVideo,
+    savedVideo: shortlistedVideo,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    searchMovie: (text) => dispatch(searchMovies(text)),
-    loadMore: (text, page) => dispatch(loadMore(text, page)),
     shortlistVideo: (video) => dispatch(shortlistVideo(video)),
     unshortlistVideo: (video) => dispatch(unshortlistVideo(video)),
+
+    searchMovie: (text, currentlySavedMovies) =>
+      dispatch(searchMovies(text, currentlySavedMovies)),
+
+    loadMore: (text, page, currentlySavedMovies) =>
+      dispatch(loadMore(text, page, currentlySavedMovies)),
   };
 };
 

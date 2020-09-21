@@ -109,6 +109,7 @@ export default class Searchbar extends Component {
           </Animated.View>
 
           <TouchableOpacity
+            hitSlop={{left: 10, right: 10, bottom: 10, top: 10}}
             onPress={this.expandAnimation}
             style={iconContainerStyle}>
             <Image source={R.Images.SearchIcon} style={Styles.iconStyle} />
